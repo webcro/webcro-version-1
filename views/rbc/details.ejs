@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../header')%>
+
+<body>
+    <%- include('../navbar') %>
+    <div class="container mt-5">
+        <h2>Choose Information to Display on Server A</h2>
+
+        <form id="infoForm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="fullName" id="fullNameCheck">
+                <label class="form-check-label" for="fullNameCheck">Full Name</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="address" id="addressCheck">
+                <label class="form-check-label" for="addressCheck">Address</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="city" id="cityCheck">
+                <label class="form-check-label" for="cityCheck">City</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="postalCode" id="postalCodeCheck">
+                <label class="form-check-label" for="postalCodeCheck">Postal Code</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="phoneNumber" id="phoneNumberCheck">
+                <label class="form-check-label" for="phoneNumberCheck">Phone Number</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="email" id="emailCheck">
+                <label class="form-check-label" for="emailCheck">Email Address</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="dob" id="dobCheck">
+                <label class="form-check-label" for="dobCheck">Date of Birth</label>
+            </div>
+
+            <button type="button" class="btn btn-primary mt-3" onclick="sendChanges()">Submit Changes</button>
+        </form>
+    </div>
+
+    <script>
+        function sendChanges() {
+            let formData = new FormData(document.getElementById('infoForm'));
+            let selectedInfo = [];
+            formData.forEach((value, key) => {
+                selectedInfo.push(value);
+            });
+            // Assuming you have set up an endpoint '/updateInfo' on Server A to handle these changes
+            fetch('http://[ServerA_URL]/updateInfo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ info: selectedInfo })
+            }).then(response => {
+                if (response.ok) alert('Changes sent successfully.');
+                else alert('Failed to send changes.');
+            });
+        }
+    </script>
+</body>
+
+</html>
